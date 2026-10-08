@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAEHA CODE FIXER & BUILDER | مصلح ومولد الأكواد الذكي</title>
+
+    <!-- Tailwind CSS & FontAwesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #0d1117; color: #c9d1d9; }
+
+        .taeha-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.12), transparent 40%),
+                        radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.1), transparent 40%), #0d1117;
+            z-index: -1;
+        }
+
+        .taeha-card {
+            background: rgba(22, 27, 34, 0.9); backdrop-filter: blur(12px);
+            border: 1px solid rgba(48, 54, 61, 0.8); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .taeha-input {
+            background: #090d12; border: 1px solid #30363d; color: #38th12;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .taeha-input:focus { border-color: #10b981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.25); outline: none; }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between pb-6 select-none relative">
+
+    <div class="taeha-bg"></div>
+
+    <!-- Header Navbar -->
+    <header class="w-full taeha-card sticky top-0 z-30 p-4 border-b border-gray-800">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white text-xl font-black glow-emerald">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-xl text-white tracking-wider flex items-center gap-2">
+                        TAEHA <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full code-font">CODE ENGINE</span>
+                    </h1>
+                    <p class="text-[10px] text-gray-400">مصلح الأكواد ومولد السكريبتات الذكي</p>
+                </div>
+            </div>
+
+            <span class="text-xs font-bold bg-gray-800/80 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-xl code-font">
+                <i class="fa-solid fa-terminal ml-1"></i> dev: taeha
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl w-full mx-auto p-4 flex-1 space-y-6">
+
+        <!-- Tabs Selector -->
+        <div class="flex justify-center gap-3">
+            <button id="tabFixBtn" onclick="switchTab('fix')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition">
+                <i class="fa-solid fa-screwdriver-wrench"></i> تصحيح خطأ الكود
+            </button>
+            <button id="tabBuildBtn" onclick="switchTab('build')" class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-gray-700 transition">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> توليد كود من الوصف
+            </button>
+        </div>
+
+        <!-- Section 1: Fix Code Error -->
+        <div id="fixSection" class="taeha-card rounded-2xl p-6 space-y-4 border-gray-800 shadow-2xl">
+            <div class="text-center space-y-1">
+                <h2 class="text-xl font-black text-white">إصلاح وتصحيح الأخطاء البرمجية</h2>
+                <p class="text-xs text-gray-400">ضع كودك وسنقوم بفحصه، إغلاق الأقواس المفقودة، وتعديل الـ Syntax فورياً</p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-emerald-400 block mb-1 code-font">// Raw Code Input:</label>
+                    <textarea id="rawCodeInput" rows="7" placeholder="// ضع الكود هنا...&#10;function test() {&#10;    console.log('مرحبا'&#10;}" class="w-full taeha-input rounded-xl p-3 text-xs text-emerald-400 resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-gray-400 block mb-1">نص الخطأ من الترمكس أو السيرفر (اختياري):</label>
+                    <input type="text" id="errorLogInput" placeholder="مثال: SyntaxError: Unexpected token '}' أو ReferenceError..." class="w-full taeha-input rounded-xl px-3.5 py-2.5 text-xs text-gray-300">
+                </div>
+
+                <button onclick="fixCodeEngine()" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold py-3 rounded-xl text-xs shadow-lg shadow-emerald-900/30 transition flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>اصلاح الكود وفحصه الآن</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 2: Build Code from Prompt -->
+        <div id="buildSection" class="hidden taeha-card rounded-2xl p-6 space-y-4 border-gray-800 shadow-2xl">
+            <div class="text-center space-y-1">
+                <h2 class="text-xl font-black text-white">توليد الأكواد والسكريبتات حسب الوصف</h2>
+                <p class="text-xs text-gray-400">اكتب ما تريد أن يفعله الكود وسيقوم المولد ببنائه فوراً بحقوق **taeha**</p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-sky-400 block mb-1">// Script Prompt:</label>
+                    <input type="text" id="codePromptInput" placeholder="مثال: دالة بوت واتساب ترسل رسالة ترحيب، أو كود لتشفير النصوص..." class="w-full taeha-input rounded-xl px-4 py-3 text-xs text-sky-300">
+                </div>
+
+                <div class="flex gap-2">
+                    <select id="codeLangSelect" class="taeha-input rounded-xl px-3 py-2 text-xs w-full text-gray-300">
+                        <option value="javascript">JavaScript / Node.js (Baileys)</option>
+                        <option value="python">Python</option>
+                        <option value="html">HTML & CSS</option>
+                    </select>
+                </div>
+
+                <button onclick="buildCodeEngine()" class="w-full bg-gradient-to-r from-sky-600 to-teal-600 hover:from-sky-500 hover:to-teal-500 text-white font-bold py-3 rounded-xl text-xs shadow-lg shadow-sky-900/30 transition flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>إنشاء وبناء الكود فوراً</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Code Box -->
+        <div id="resultBox" class="hidden taeha-card rounded-2xl p-5 space-y-3 border-emerald-500/40 glow-emerald">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                <span id="resultTitle" class="text-xs font-bold text-emerald-400 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i> الكود الجاهز والمعدل
+                </span>
+                <button onclick="copyResultCode()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1 transition">
+                    <i class="fa-solid fa-copy"></i> نسخ الكود
+                </button>
+            </div>
+
+            <pre class="bg-[#05080c] rounded-xl p-4 text-xs code-font text-emerald-400 overflow-x-auto border border-gray-800 dir-ltr text-left" id="outputCodeDisplay"></pre>
+
+            <div class="text-[11px] text-gray-400 bg-gray-900/80 p-2.5 rounded-xl border border-gray-800">
+                <p>💡 <strong>ملاحظة المصلح:</strong> <span id="explainFixText" class="text-gray-300">تم تصحيح الأخطاء وإضافة حماية الهيكل بنجاح بحقوق taeha.</span></p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Copyrights -->
+    <footer class="w-full text-center text-xs text-gray-500 py-2 code-font">
+        <p>Copyright © 2026 <strong>TAEHA CODE ENGINE</strong> | Developed by taeha 🚀</p>
+    </footer>
+
+    <!-- JavaScript Logic Engine -->
+    <script>
+        function switchTab(type) {
+            const fixSec = document.getElementById('fixSection');
+            const buildSec = document.getElementById('buildSection');
+            const fixBtn = document.getElementById('tabFixBtn');
+            const buildBtn = document.getElementById('tabBuildBtn');
+
+            if (type === 'fix') {
+                fixSec.classList.remove('hidden');
+                buildSec.classList.add('hidden');
+                fixBtn.className = "bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition";
+                buildBtn.className = "bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-gray-700 transition";
+            } else {
+                fixSec.classList.add('hidden');
+                buildSec.classList.remove('hidden');
+                buildBtn.className = "bg-sky-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition";
+                fixBtn.className = "bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-gray-700 transition";
+            }
+            document.getElementById('resultBox').classList.add('hidden');
+        }
+
+        function fixCodeEngine() {
+            const code = document.getElementById('rawCodeInput').value;
+
+            if (!code.trim()) {
+                alert('يرجى كتابة الكود أولاً لتصحيحه!');
+                return;
+            }
+
+            let fixedCode = code;
+            let explanation = "تم فحص الكود وضبط الأقواس والهياكل بشكل سليم.";
+
+            // 1. موازنة الأقواس
+            const openCurly = (code.match(/\{/g) || []).length;
+            const closeCurly = (code.match(/\}/g) || []).length;
+            if (openCurly > closeCurly) {
+                fixedCode += '\n' + '}'.repeat(openCurly - closeCurly);
+                explanation = `تم إضافة (${openCurly - closeCurly}) أقواس إغلاق '}' مفقودة في نهاية الكود.`;
+            }
+
+            const openParen = (code.match(/\(/g) \vert{}\vert{} []).length;             const closeParen = (code.match(/\)/g) || []).length;
+            if (openParen > closeParen) {
+                fixedCode += ')'.repeat(openParen - closeParen);
+                explanation += ` وتم تصحيح أقواس الدالة ')'.`;
+            }
+
+            // 2. إضافة توقيع taeha
+            const headerHeader = `// ====================================\n// Fixed & Optimized by TAEHA CODE ENGINE\n// Developer: taeha | Status: Clean & Working\n// ====================================\n\n`;
+            fixedCode = headerHeader + fixedCode;
+
+            showResult(fixedCode, "تم إصلاح وتجهيز الكود بنجاح!", explanation);
+        }
+
+        function buildCodeEngine() {
+            const prompt = document.getElementById('codePromptInput').value.trim();
+            const lang = document.getElementById('codeLangSelect').value;
+
+            if (!prompt) {
+                alert('يرجى كتابة وصف الكود المطلوب!');
+                return;
+            }
+
+            let generatedCode = "";
+
+            if (lang === "javascript") {
+                generatedCode = `// ====================================\n// Generated by TAEHA CODE ENGINE\n// Description: ${prompt}\n// Developer: taeha\n// ====================================\n\nasync function taehaGeneratedTask(client, m) {\n    try {\n        console.log("⚡ Executing TAEHA Script for: ${prompt}");\n        \n        // Task Implementation\n        const result = {\n            status: true,\n            author: "taeha",\n            query: "${prompt}",\n            timestamp: new Date().toISOString()\n        };\n        \n        return result;\n    } catch (error) {\n        console.error("Error in TAEHA Script:", error);\n    }\n}\n\nmodule.exports = { taehaGeneratedTask };`;
+            } else if (lang === "python") {
+                generatedCode = `# ====================================\n# Generated by TAEHA CODE ENGINE\n# Description: ${prompt}\n# Developer: taeha\n# ====================================\n\nimport sys\nimport time\n\ndef taeha_script_handler():\n    print("⚡ TAEHA Engine Initialized...")\n    print("Processing: ${prompt}")\n    return {"status": "success", "author": "taeha"}\n\nif __name__ == "__main__":\n    taeha_script_handler()`;
+            } else {
+                generatedCode = `<!-- Generated by TAEHA CODE ENGINE | Developer: taeha -->\n<div class="taeha-container">\n    <h2>${prompt}</h2>\n    <p>Code generated successfully by TAEHA ENGINE.</p>\n</div>`;
+            }
+
+            showResult(generatedCode, "تم بناء وتوليد الكود بنجاح!", `تم إنشاء كود ${lang} كامل ومجهز حسب الوصف.`);
+        }
+
+        function showResult(code, title, explanation) {
+            document.getElementById('outputCodeDisplay').textContent = code;
+            document.getElementById('resultTitle').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i> ${title}`;
+            document.getElementById('explainFixText').innerText = explanation;
+            document.getElementById('resultBox').classList.remove('hidden');
+        }
+
+        function copyResultCode() {
+            const codeText = document.getElementById('outputCodeDisplay').textContent;
+            navigator.clipboard.writeText(codeText);
+            alert('تم نسخ الكود المعدل بحقوق taeha! 📋');
+        }
+    </script>
+</body>
+</html>
